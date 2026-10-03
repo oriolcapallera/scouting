@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Scouting de recepció</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#8E0B20">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Scouting">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
@@ -171,6 +179,7 @@ tr.cur td:first-child{color:var(--court)}
       <button id="setUp" aria-label="Set següent">+</button>
     </div>
     <button class="btn" id="videoToggle">Amaga vídeo</button>
+    <button class="btn primary" id="installBtn" hidden>Instal·la</button>
     <button class="btn" id="resetBtn">Esborra dades</button>
   </div>
 
@@ -439,6 +448,19 @@ tr.cur td:first-child{color:var(--court)}
   }
 
   function renderAll(){renderSet();renderRot();renderCount();applyVideo();}
+  // ---------- Instal·lació com a app ----------
+  var deferred=null;
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;$('installBtn').hidden=false;});
+  $('installBtn').onclick=function(){
+    if(!deferred)return;
+    deferred.prompt();
+    deferred.userChoice.finally(function(){deferred=null;$('installBtn').hidden=true;});
+  };
+  window.addEventListener('appinstalled',function(){$('installBtn').hidden=true;toast('App instal·lada');});
+  if('serviceWorker' in navigator && location.protocol==='https:'){
+    window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});
+  }
+
   load();
   if(state.url){$('urlInput').value=state.url;loadVideo(state.url);}
   renderAll();

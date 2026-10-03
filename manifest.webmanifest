@@ -1,0 +1,17 @@
+{
+  "name": "Scouting Vòlei",
+  "short_name": "Scouting",
+  "description": "Directe de YouTube i estadística de recepció per rotacions",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#F3EFEF",
+  "theme_color": "#8E0B20",
+  "lang": "ca",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
